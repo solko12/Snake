@@ -1,18 +1,32 @@
-import javax.swing.*;
 
-public class Main {
-    public Main()
-    {
-        JFrame frame = new JFrame();
-        GamePanel gamePanel = new GamePanel();
-        frame.add(gamePanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Snake");
-        frame.pack();
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
+public class Main extends JFrame {
+
+    public Main() {
+
+        initUI();
     }
+
+    private void initUI() {
+
+        add(new Board());
+
+        setResizable(false);
+        pack();
+
+        setTitle("Snake");
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+
     public static void main(String[] args) {
-        new Main();
+
+        EventQueue.invokeLater(() -> {
+            JFrame ex = new Main();
+            ex.setVisible(true);
+        });
     }
 }
