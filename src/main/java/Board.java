@@ -18,27 +18,29 @@ public class Board extends JPanel implements ActionListener {
     private final int B_WIDTH = 300;
     private final int B_HEIGHT = 300;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 900;
+    private final int ALL_DOTS = B_WIDTH*B_HEIGHT/(DOT_SIZE*DOT_SIZE);
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    private final int x[] = new int[ALL_DOTS];
-    private final int y[] = new int[ALL_DOTS];
+    //private final int x[] = new int[ALL_DOTS];
+    //private final int y[] = new int[ALL_DOTS];
 
-    private int dots;
+    //private int dots;
     private int apple_x;
     private int apple_y;
 
-    private boolean leftDirection = false;
+/*    private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
-    private boolean downDirection = false;
+    private boolean downDirection = false;*/
     private boolean inGame = true;
 
     private Timer timer;
     private Image ball;
     private Image apple;
     private Image head;
+
+    Player player;
 
     public Board() {
 
@@ -70,12 +72,12 @@ public class Board extends JPanel implements ActionListener {
 
     private void initGame() {
 
-        dots = 3;
-
-        for (int z = 0; z < dots; z++) {
+        //dots = 3;
+        player=new Player(3);
+/*        for (int z = 0; z < dots; z++) {
             x[z] = 50 - z * 10;
             y[z] = 50;
-        }
+        }*/
 
         locateApple();
 
@@ -96,11 +98,13 @@ public class Board extends JPanel implements ActionListener {
 
             g.drawImage(apple, apple_x, apple_y, this);
 
-            for (int z = 0; z < dots; z++) {
+            for (int z = 0; z < player.dots; z++) {
                 if (z == 0) {
-                    g.drawImage(head, x[z], y[z], this);
+                    g.drawImage(head, player.x[z],player.y[z],this);
+                    //g.drawImage(head, x[z], y[z], this);
                 } else {
-                    g.drawImage(ball, x[z], y[z], this);
+                    g.drawImage(ball, player.x[z], player.y[z], this);
+                    //g.drawImage(ball, x[z], y[z], this);
                 }
             }
 
@@ -125,14 +129,14 @@ public class Board extends JPanel implements ActionListener {
 
     private void checkApple() {
 
-        if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-            dots++;
+        if ((player.x[0] == apple_x)&&(player.y[0] == apple_y)){//((x[0] == apple_x) && (y[0] == apple_y)) {
+            player.dots++;
+            //dots++;
             locateApple();
         }
     }
 
-    private void move() {
+    /*private void move() {
 
         for (int z = dots; z > 0; z--) {
             x[z] = x[(z - 1)];
@@ -154,9 +158,9 @@ public class Board extends JPanel implements ActionListener {
         if (downDirection) {
             y[0] += DOT_SIZE;
         }
-    }
+    }*/
 
-    private void checkCollision() {
+    /*private void checkCollision() {
 
         for (int z = dots; z > 0; z--) {
 
@@ -184,10 +188,9 @@ public class Board extends JPanel implements ActionListener {
         if (!inGame) {
             timer.stop();
         }
-    }
+    }*/
 
     private void locateApple() {
-
         int r = (int) (Math.random() * RAND_POS);
         apple_x = ((r * DOT_SIZE));
 
@@ -197,12 +200,12 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (inGame) {
-
             checkApple();
-            checkCollision();
-            move();
+            player.checkCollision(inGame, player.dots, timer);
+            player.move(player.dots, player.leftDirection, player.rightDirection, player.upDirection, player.downDirection);
+            //checkCollision();
+            //move();
         }
 
         repaint();
@@ -215,28 +218,28 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_LEFT) && (!player.rightDirection)) {
+                player.leftDirection = true;
+                player.upDirection = false;
+                player.downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_RIGHT) && (!player.leftDirection)) {
+                player.rightDirection = true;
+                player.upDirection = false;
+                player.downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_UP) && (!player.downDirection)) {
+                player.upDirection = true;
+                player.rightDirection = false;
+                player.leftDirection = false;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_DOWN) && (!player.upDirection)) {
+                player.downDirection = true;
+                player.rightDirection = false;
+                player.leftDirection = false;
             }
         }
     }
