@@ -25,6 +25,7 @@ public class Board extends JPanel implements ActionListener {
     private boolean upDirection = false;
     private boolean downDirection = false;
     private Timer timer;
+    private boolean enemyLose = false;
 
     private Snake player;
     private EnemySnake enemy;
@@ -89,14 +90,29 @@ public class Board extends JPanel implements ActionListener {
             Toolkit.getDefaultToolkit().sync();
 
         } else {
+            if(enemyLose) {
+                youWin(g);
+            }else{
+                gameOver(g);
+            }
 
-            gameOver(g);
         }
     }
 
     private void gameOver(Graphics g) {
 
         String msg = "Game Over";
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        FontMetrics metr = getFontMetrics(small);
+
+        g.setColor(Color.white);
+        g.setFont(small);
+        g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+    }
+
+    private void youWin(Graphics g) {
+
+        String msg = "You Win!!";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
 
@@ -124,6 +140,7 @@ public class Board extends JPanel implements ActionListener {
     private void checkEnemyCollision(){
         inGame = enemy.checkCollision();
         if(!inGame){
+            enemyLose = true;
             timer.stop();
         }
     }
