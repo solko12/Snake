@@ -33,6 +33,7 @@ public class Board extends JPanel implements ActionListener {
 
     public Board() {
         player = new Snake(50,50,"src/resources/head.png","src/resources/dot.png");
+        enemy = new EnemySnake(30,30, "src/resources/head.png","src/resources/dot.png");
         apple = new Apple("src/resources/apple.png");
         initBoard();
     }
@@ -70,6 +71,13 @@ public class Board extends JPanel implements ActionListener {
 
             g.drawImage(apple.body, apple.x, apple.y, this);
 
+            for (int z = 0; z < enemy.dots; z++) {
+                if (z == 0) {
+                    g.drawImage(enemy.head, enemy.x[z], enemy.y[z], this);
+                } else {
+                    g.drawImage(enemy.body, enemy.x[z], enemy.y[z], this);
+                }
+            }
             for (int z = 0; z < player.dots; z++) {
                 if (z == 0) {
                     g.drawImage(player.head, player.x[z], player.y[z], this);
@@ -108,12 +116,48 @@ public class Board extends JPanel implements ActionListener {
 
     private void checkCollision() {
         inGame = player.checkCollision();
-
         if (!inGame) {
             timer.stop();
         }
     }
-    public void move() {
+
+    private void checkEnemyCollision(){
+        inGame = enemy.checkCollision();
+        if(!inGame){
+            timer.stop();
+        }
+    }
+
+    public void enemyMove() {
+
+        for (int z = enemy.dots; z > 0; z--) {
+            enemy.x[z] = enemy.x[(z - 1)];
+            enemy.y[z] = enemy.y[(z - 1)];
+        }
+
+        boolean enemyLeftDirection = false;
+        boolean enemyRightDirection = true;
+        boolean enemyUpDirection = false;
+        boolean enemyDownDirection = false;
+
+        if (enemyLeftDirection) {
+            enemy.x[0] -= DOT_SIZE;
+        }
+
+        if (enemyRightDirection) {
+            enemy.x[0] += DOT_SIZE;
+        }
+
+        if (enemyUpDirection) {
+            enemy.y[0] -= DOT_SIZE;
+        }
+
+        if (enemyDownDirection) {
+            enemy.y[0] += DOT_SIZE;
+        }
+    }
+
+    public void playerMove() {
 
         for (int z = player.dots; z > 0; z--) {
             player.x[z] = player.x[(z - 1)];
@@ -142,10 +186,11 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) {
-
             checkApple();
             checkCollision();
-            move();
+            checkEnemyCollision();
+            playerMove();
+            enemyMove();
         }
 
         repaint();
