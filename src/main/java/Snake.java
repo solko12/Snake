@@ -15,8 +15,7 @@ public class Snake {
     int[] y = new int[ALL_DOTS];
 
 
-    int horizontalAxis = 1;
-    int verticalAxis = 0;
+    int dir = 6;
 
     public Snake(int posx, int posy, String headIMG, String bodyIMG ) {
         for (int z = 0; z < dots; z++) {
@@ -61,10 +60,21 @@ public class Snake {
             y[z] = y[(z - 1)];
         }
 
-        x[0] += horizontalAxis * DOT_SIZE;
+        if (dir == 4) {
+            x[0] -= DOT_SIZE;
+        }
 
-        y[0] += verticalAxis * DOT_SIZE;
+        if (dir == 6) {
+            x[0] += DOT_SIZE;
+        }
 
+        if (dir == 8) {
+            y[0] -= DOT_SIZE;
+        }
+
+        if (dir == 2) {
+            y[0] += DOT_SIZE;
+        }
 
     }
 }

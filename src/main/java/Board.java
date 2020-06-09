@@ -123,6 +123,11 @@ public class Board extends JPanel implements ActionListener {
             player.dots++;
             apple.locateApple();
         }
+        else if((enemy.x[0] == apple.x) && (enemy.y[0] == apple.y))
+        {
+            enemy.dots++;
+            apple.locateApple();
+        }
     }
 
     private void checkCollision() {
@@ -148,6 +153,21 @@ public class Board extends JPanel implements ActionListener {
             checkCollision();
             player.move();
             checkEnemyCollision();
+            int newDir = enemy.AIfindDirection(apple.x,apple.y);
+            enemy.dir=newDir;
+            if(newDir != -1)
+            {
+                enemy.dir=newDir;
+            }
+
+            else
+            {
+
+                enemyLose=true;
+                inGame=false;
+            }
+
+
             enemy.move();
         }
 
@@ -161,24 +181,20 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (player.horizontalAxis !=1)) {
-                player.horizontalAxis = -1;
-                player.verticalAxis = 0;
+            if ((key == KeyEvent.VK_LEFT) && (player.dir !=6)) {
+                player.dir = 4;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (player.horizontalAxis !=-1)) {
-                player.horizontalAxis = 1;
-                player.verticalAxis = 0;
+            if ((key == KeyEvent.VK_RIGHT) && (player.dir !=4)) {
+                player.dir = 6;
             }
 
-            if ((key == KeyEvent.VK_UP) && (player.verticalAxis!=1)) {
-                player.verticalAxis = -1;
-                player.horizontalAxis = 0;
+            if ((key == KeyEvent.VK_UP) && (player.dir!=2)) {
+                player.dir = 8;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (player.verticalAxis!=-1)) {
-                player.verticalAxis = 1;
-                player.horizontalAxis = 0;
+            if ((key == KeyEvent.VK_DOWN) && (player.dir!=8)) {
+                player.dir = 2;
             }
         }
     }
