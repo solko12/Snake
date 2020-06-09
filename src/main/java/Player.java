@@ -16,10 +16,8 @@ public class Player implements iSnake {
     int[] x = new int[ALL_DOTS];
     int[] y = new int[ALL_DOTS];
 
-    boolean leftDirection = false;
-    boolean rightDirection = true;
-    boolean upDirection = false;
-    boolean downDirection = false;
+    int horizontalAxis = 1;
+    int verticalAxis = 0;
 
     public Player(int posx, int posy, String headIMG, String bodyIMG ) {
         for (int z = 0; z < dots; z++) {
@@ -66,21 +64,10 @@ public class Player implements iSnake {
             y[z] = y[(z - 1)];
         }
 
-        if (leftDirection) {
-            x[0] -= DOT_SIZE;
-        }
+            x[0] += horizontalAxis * DOT_SIZE;
 
-        if (rightDirection) {
-            x[0] += DOT_SIZE;
-        }
+            y[0] += verticalAxis * DOT_SIZE;
 
-        if (upDirection) {
-            y[0] -= DOT_SIZE;
-        }
-
-        if (downDirection) {
-            y[0] += DOT_SIZE;
-        }
 
     }
 

@@ -14,10 +14,9 @@ public class Enemy implements iSnake {
     int[] x = new int[ALL_DOTS];
     int[] y = new int[ALL_DOTS];
 
-    boolean enemyLeftDirection = false;
-    boolean enemyRightDirection = true;
-    boolean enemyUpDirection = false;
-    boolean enemyDownDirection = false;
+
+    int horizontalAxis = 1;
+    int verticalAxis = 0;
 
     public Enemy(int posx, int posy, String headIMG, String bodyIMG ) {
         for (int z = 0; z < dots; z++) {
@@ -68,19 +67,19 @@ public class Enemy implements iSnake {
             y[z] = y[(z - 1)];
         }
 
-        if (enemyLeftDirection) {
+        if (horizontalAxis==-1) {
             x[0] -= DOT_SIZE;
         }
 
-        if (enemyRightDirection) {
+        if (horizontalAxis==1) {
             x[0] += DOT_SIZE;
         }
 
-        if (enemyUpDirection) {
+        if (verticalAxis==1) {
             y[0] -= DOT_SIZE;
         }
 
-        if (enemyDownDirection) {
+        if (verticalAxis==-1) {
             y[0] += DOT_SIZE;
         }
     }

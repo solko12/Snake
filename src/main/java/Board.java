@@ -162,28 +162,24 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (player.rightDirection)) {
-                player.leftDirection = true;
-                player.upDirection = false;
-                player.downDirection = false;
+            if ((key == KeyEvent.VK_LEFT) && (player.horizontalAxis !=1)) {
+                player.horizontalAxis = -1;
+                player.verticalAxis = 0;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!player.leftDirection)) {
-                player.rightDirection = true;
-                player.upDirection = false;
-                player.downDirection = false;
+            if ((key == KeyEvent.VK_RIGHT) && (player.horizontalAxis !=-1)) {
+                player.horizontalAxis = 1;
+                player.verticalAxis = 0;
             }
 
-            if ((key == KeyEvent.VK_UP) && (!player.downDirection)) {
-                player.upDirection = true;
-                player.rightDirection = false;
-                player.leftDirection = false;
+            if ((key == KeyEvent.VK_UP) && (player.verticalAxis!=1)) {
+                player.verticalAxis = -1;
+                player.horizontalAxis = 0;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (!player.upDirection)) {
-                player.downDirection = true;
-                player.rightDirection = false;
-                player.leftDirection = false;
+            if ((key == KeyEvent.VK_DOWN) && (player.verticalAxis!=-1)) {
+                player.verticalAxis = 1;
+                player.horizontalAxis = 0;
             }
         }
     }
