@@ -1,28 +1,16 @@
 import javax.swing.*;
 import java.awt.Image;
 
-public class Enemy extends Snake implements iSnake {
+public class Enemy extends Snake  {
 
 
     public Enemy(int posx, int posy, String headIMG, String bodyIMG) {
         super(posx, posy, headIMG, bodyIMG);
     }
 
-    @Override
-    public void snakeController() {
 
-    }
 
-    // checks if an element is a part of snake's body
-    public boolean checkBody(int xPos,int yPos)
-    {
-        for(int i=1;i<dots;i++)
-            if(x[i]==xPos && y[i]==yPos)
-            {
-                return true;
-            }
-        return false;
-    }
+
 
     public boolean canMove(int direction){
         if(direction==8){

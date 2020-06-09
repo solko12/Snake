@@ -131,14 +131,29 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void checkCollision() {
-        inGame = player.checkCollision();
+        if(!(player.checkCollision()))
+        {
+            inGame=false;
+        }
+        else if(enemy.checkBody(player.x[0],player.y[0]))
+        {
+            inGame = false;
+        }
+
         if (!inGame) {
             timer.stop();
         }
     }
 
     private void checkEnemyCollision(){
-        inGame = enemy.checkCollision();
+        if(!(enemy.checkCollision()))
+        {
+            inGame=false;
+        }
+        else if(player.checkBody(enemy.x[0],enemy.y[0]))
+        {
+            inGame = false;
+        }
         if(!inGame){
             enemyLose = true;
             timer.stop();

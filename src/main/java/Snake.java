@@ -77,4 +77,14 @@ public class Snake {
         }
 
     }
+    // checks if an element is a part of snake's body
+    public boolean checkBody(int xPos,int yPos)
+    {
+        for(int i=1;i<dots;i++)
+            if(x[i]==xPos && y[i]==yPos)
+            {
+                return true;
+            }
+        return false;
+    }
 }
