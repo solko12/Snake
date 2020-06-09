@@ -20,21 +20,16 @@ public class Board extends JPanel implements ActionListener {
     private final int DELAY = 140;
     private int DOT_SIZE = 10;
     private boolean inGame = true;
-    private boolean leftDirection = false;
-    private boolean rightDirection = true;
-    private boolean upDirection = false;
-    private boolean downDirection = false;
     private Timer timer;
     private boolean enemyLose = false;
-
-    private Snake player;
-    private EnemySnake enemy;
+    private Player player;
+    private Enemy enemy;
     private Apple apple;
     private Frog frog;
 
     public Board() {
-        player = new Snake(50,50,"src/resources/head.png","src/resources/dot.png");
-        enemy = new EnemySnake(30,30, "src/resources/head.png","src/resources/dot.png");
+        player = new Player(50,50,"src/resources/head.png","src/resources/dot.png");
+        enemy = new Enemy(30,30,"src/resources/head.png","src/resources/dot.png");
         apple = new Apple("src/resources/apple.png");
         initBoard();
     }
@@ -48,7 +43,6 @@ public class Board extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         initGame();
     }
-
 
     private void initGame() {
 
@@ -72,6 +66,7 @@ public class Board extends JPanel implements ActionListener {
 
             g.drawImage(apple.body, apple.x, apple.y, this);
 
+
             for (int z = 0; z < enemy.dots; z++) {
                 if (z == 0) {
                     g.drawImage(enemy.head, enemy.x[z], enemy.y[z], this);
@@ -79,6 +74,7 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(enemy.body, enemy.x[z], enemy.y[z], this);
                 }
             }
+
             for (int z = 0; z < player.dots; z++) {
                 if (z == 0) {
                     g.drawImage(player.head, player.x[z], player.y[z], this);
@@ -145,104 +141,52 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    public void enemyMove() {
-
-        for (int z = enemy.dots; z > 0; z--) {
-            enemy.x[z] = enemy.x[(z - 1)];
-            enemy.y[z] = enemy.y[(z - 1)];
-        }
-
-        boolean enemyLeftDirection = false;
-        boolean enemyRightDirection = true;
-        boolean enemyUpDirection = false;
-        boolean enemyDownDirection = false;
-
-        if (enemyLeftDirection) {
-            enemy.x[0] -= DOT_SIZE;
-        }
-
-        if (enemyRightDirection) {
-            enemy.x[0] += DOT_SIZE;
-        }
-
-        if (enemyUpDirection) {
-            enemy.y[0] -= DOT_SIZE;
-        }
-
-        if (enemyDownDirection) {
-            enemy.y[0] += DOT_SIZE;
-        }
-    }
-
-    public void playerMove() {
-
-        for (int z = player.dots; z > 0; z--) {
-            player.x[z] = player.x[(z - 1)];
-            player.y[z] = player.y[(z - 1)];
-        }
-
-        if (leftDirection) {
-            player.x[0] -= DOT_SIZE;
-        }
-
-        if (rightDirection) {
-            player.x[0] += DOT_SIZE;
-        }
-
-        if (upDirection) {
-            player.y[0] -= DOT_SIZE;
-        }
-
-        if (downDirection) {
-            player.y[0] += DOT_SIZE;
-        }
-    }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) {
             checkApple();
             checkCollision();
+            player.move();
             checkEnemyCollision();
-            playerMove();
-            enemyMove();
+            enemy.move();
         }
 
         repaint();
     }
 
-    private class TAdapter extends KeyAdapter {
+    public class TAdapter extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent e) {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_LEFT) && (player.rightDirection)) {
+                player.leftDirection = true;
+                player.upDirection = false;
+                player.downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_RIGHT) && (!player.leftDirection)) {
+                player.rightDirection = true;
+                player.upDirection = false;
+                player.downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_UP) && (!player.downDirection)) {
+                player.upDirection = true;
+                player.rightDirection = false;
+                player.leftDirection = false;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_DOWN) && (!player.upDirection)) {
+                player.downDirection = true;
+                player.rightDirection = false;
+                player.leftDirection = false;
             }
         }
     }
+
+
 }
