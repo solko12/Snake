@@ -82,4 +82,15 @@ public class Enemy extends Snake  {
         }
         return -1;
     }
+
+/*    public void newDir(Apple apple){
+        int newDir = AIfindDirection(apple.x,apple.y);
+        dir=newDir;
+        if(newDir != -1) {
+            dir = newDir;
+        } else {
+            enemyLose=true;
+            inGame=false;
+        }
+    }*/
 }

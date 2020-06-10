@@ -125,20 +125,36 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (inGame) {
-            apple.checkApple();
-            checkCollision();
-            player.move();
-            checkEnemyCollision();
-            int newDir = enemy.AIfindDirection(apple.x,apple.y);
-            enemy.dir=newDir;
-            if(newDir != -1) {
-                enemy.dir = newDir;
-            } else {
+            Thread thread1 = new Thread(()->{
+                apple.checkApple();
+            });
+            Thread thread2 = new Thread(()->{
+                checkCollision();
+                player.move();
+            });
+            Thread thread3 = new Thread(()->{
+                checkEnemyCollision();
+                int newDir = enemy.AIfindDirection(apple.x,apple.y);
+                enemy.dir=newDir;
+                if(newDir != -1) {
+                    enemy.dir = newDir;
+                } else {
 
-                enemyLose=true;
-                inGame=false;
+                    enemyLose=true;
+                    inGame=false;
+                }
+                enemy.move();
+            });
+            thread1.start();
+            thread2.start();
+            thread3.start();
+            try {
+                thread1.join();
+                thread2.join();
+                thread3.join();
+            }catch (InterruptedException exception){
+                System.out.println(exception.getMessage());
             }
-            enemy.move();
         }
         repaint();
     }
