@@ -27,7 +27,7 @@ public class Board extends JPanel implements ActionListener {
     public Board() {
         player = new Player(50,50,"src/resources/head.png","src/resources/dot.png");
         enemy = new Enemy(30,30,"src/resources/head.png","src/resources/dot.png");
-        apple = new Apple("src/resources/apple.png");
+        apple = new Apple("src/resources/apple.png", player, enemy);
         initBoard();
     }
 
@@ -99,16 +99,6 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
-    private void checkApple() {
-        if ((player.x[0] == apple.x) && (player.y[0] == apple.y)) {
-            player.dots++;
-            apple.locateApple();
-        } else if((enemy.x[0] == apple.x) && (enemy.y[0] == apple.y)) {
-            enemy.dots++;
-            apple.locateApple();
-        }
-    }
-
     private void checkCollision() {
         if(!(player.checkCollision())) {
             inGame=false;
@@ -135,7 +125,7 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (inGame) {
-            checkApple();
+            apple.checkApple();
             checkCollision();
             player.move();
             checkEnemyCollision();

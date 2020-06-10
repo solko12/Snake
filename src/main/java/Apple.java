@@ -1,9 +1,12 @@
 public class Apple extends NPC {
 
-    public Apple(String img)
-    {
-        super(img);
+    Player player;
+    Enemy enemy;
 
+    public Apple(String img, Player player, Enemy enemy) {
+        super(img);
+        this.player = player;
+        this.enemy = enemy;
     }
 
     public void locateApple() {
@@ -13,5 +16,15 @@ public class Apple extends NPC {
 
         r = (int) (Math.random() * RAND_POS);
         y = ((r * DOT_SIZE));
+    }
+
+    public void checkApple() {
+        if ((player.x[0] == x) && (player.y[0] == y)) {
+            player.dots++;
+            locateApple();
+        } else if((enemy.x[0] == x) && (enemy.y[0] == y)) {
+            enemy.dots++;
+            locateApple();
+        }
     }
 }
