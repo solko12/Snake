@@ -7,8 +7,7 @@ public class NPC {
     int RAND_POS = 29;
     int DOT_SIZE = 10;
 
-    public NPC(String image)
-    {
+    public NPC(String image) {
         // przypisanie obrazka
         ImageIcon img = new ImageIcon(image);
         body = img.getImage();

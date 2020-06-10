@@ -2,15 +2,9 @@ import javax.swing.*;
 import java.awt.Image;
 
 public class Enemy extends Snake  {
-
-
     public Enemy(int posx, int posy, String headIMG, String bodyIMG) {
         super(posx, posy, headIMG, bodyIMG);
     }
-
-
-
-
 
     public boolean canMove(int direction){
         if(direction==8){
@@ -88,6 +82,4 @@ public class Enemy extends Snake  {
         }
         return -1;
     }
-
-
 }

@@ -6,13 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Player extends Snake  {
-
-
     public Player(int posx, int posy, String headIMG, String bodyIMG) {
         super(posx, posy, headIMG, bodyIMG);
     }
-
-
-
-
 }

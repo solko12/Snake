@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Snake {
 
@@ -13,7 +15,6 @@ public class Snake {
     int ALL_DOTS = 900;
     int[] x = new int[ALL_DOTS];
     int[] y = new int[ALL_DOTS];
-
 
     int dir = 6;
 
@@ -78,13 +79,13 @@ public class Snake {
 
     }
     // checks if an element is a part of snake's body
-    public boolean checkBody(int xPos,int yPos)
-    {
-        for(int i=1;i<dots;i++)
-            if(x[i]==xPos && y[i]==yPos)
-            {
+    public boolean checkBody(int xPos,int yPos) {
+        for(int i=1;i<dots;i++) {
+            if (x[i] == xPos && y[i] == yPos) {
                 return true;
             }
+        }
         return false;
     }
+
 }
