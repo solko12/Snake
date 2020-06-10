@@ -8,6 +8,7 @@ public class Snake {
     Image head;
     Image body;
     int dots = 3;
+    int pts = 0;
 
     int DOT_SIZE = 10;
     int B_WIDTH = 300;

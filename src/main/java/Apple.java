@@ -21,9 +21,11 @@ public class Apple extends NPC {
     public void checkApple() {
         if ((player.x[0] == x) && (player.y[0] == y)) {
             player.dots++;
+            player.pts++;
             locateApple();
         } else if((enemy.x[0] == x) && (enemy.y[0] == y)) {
             enemy.dots++;
+            enemy.pts++;
             locateApple();
         }
     }

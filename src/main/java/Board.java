@@ -6,10 +6,7 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener {
 
@@ -35,7 +32,8 @@ public class Board extends JPanel implements ActionListener {
         addKeyListener(new PlayerControler(player));
         setBackground(Color.black);
         setFocusable(true);
-        setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+        setPreferredSize(new Dimension(B_WIDTH+200, B_HEIGHT));
+
         initGame();
     }
 
@@ -49,6 +47,12 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        for(int i=0; i<=B_WIDTH;i++){
+            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), i, B_HEIGHT+5, this);
+        }
+        for(int i=0; i<=B_HEIGHT;i++){
+            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), B_WIDTH+5, i, this);
+        }
         doDrawing(g);
     }
 
@@ -69,6 +73,13 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(player.body, player.x[z], player.y[z], this);
                 }
             }
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+
+            g.setColor(Color.red);
+
+            g.drawString("Player Points: "+player.pts, B_WIDTH+15, 15);
+            g.drawString("Enemy Points: "+enemy.pts, B_WIDTH+15,30);
+
             Toolkit.getDefaultToolkit().sync();
         } else {
             if(enemyLose) {
@@ -125,13 +136,16 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (inGame) {
+            // Thread for apple
             Thread thread1 = new Thread(()->{
                 apple.checkApple();
             });
+            // Thread for player
             Thread thread2 = new Thread(()->{
                 checkCollision();
                 player.move();
             });
+            // Thread for enemy snake
             Thread thread3 = new Thread(()->{
                 checkEnemyCollision();
                 int newDir = enemy.AIfindDirection(apple.x,apple.y);
@@ -156,6 +170,7 @@ public class Board extends JPanel implements ActionListener {
                 System.out.println(exception.getMessage());
             }
         }
+
         repaint();
     }
 }
