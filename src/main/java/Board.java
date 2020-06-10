@@ -10,8 +10,10 @@ import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int B_WIDTH = 300;
-    private final int B_HEIGHT = 300;
+    private final int BOARD_WIDTH = 300;
+    private final int BOARD_HEIGHT = 300;
+    private final int FRAME_WIDTH = BOARD_WIDTH + 200;
+    private final int FRAME_HEIGHT = BOARD_HEIGHT;
     private final int DELAY = 140;
     private boolean inGame = true;
     private Timer timer;
@@ -20,11 +22,12 @@ public class Board extends JPanel implements ActionListener {
     private Enemy enemy;
     private Apple apple;
     private Frog frog;
-
+    private LeaderBoard leaderBoard;
     public Board() {
         player = new Player(50,50,"src/resources/head.png","src/resources/dot.png");
         enemy = new Enemy(30,30,"src/resources/head.png","src/resources/dot.png");
         apple = new Apple("src/resources/apple.png", player, enemy);
+        leaderBoard = new LeaderBoard(BOARD_WIDTH+5,BOARD_HEIGHT/4, FRAME_WIDTH, FRAME_HEIGHT, this);
         initBoard();
     }
 
@@ -32,7 +35,7 @@ public class Board extends JPanel implements ActionListener {
         addKeyListener(new PlayerControler(player));
         setBackground(Color.black);
         setFocusable(true);
-        setPreferredSize(new Dimension(B_WIDTH+200, B_HEIGHT));
+        setPreferredSize(new Dimension(BOARD_WIDTH+200, BOARD_HEIGHT));
 
         initGame();
     }
@@ -47,12 +50,13 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(int i=0; i<=B_WIDTH;i++){
-            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), i, B_HEIGHT+5, this);
+        for(int i=0; i<=BOARD_WIDTH;i++){
+            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), i, BOARD_HEIGHT+5, this);
         }
-        for(int i=0; i<=B_HEIGHT;i++){
-            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), B_WIDTH+5, i, this);
+        for(int i=0; i<=BOARD_HEIGHT;i++){
+            g.drawImage(new ImageIcon("src/resources/frameDot.png").getImage(), BOARD_WIDTH+5, i, this);
         }
+        leaderBoard.drawLeaderBoard(g);
         doDrawing(g);
     }
 
@@ -78,13 +82,13 @@ public class Board extends JPanel implements ActionListener {
             if(enemy.lastPts!=enemy.pts) {
                 g.setColor(Color.RED);
             }
-            g.drawString("Player Points: "+player.pts, B_WIDTH+15, 15);
+            g.drawString("Player Points: "+player.pts, BOARD_WIDTH+15, 15);
             if(player.lastPts!=player.pts){
                 g.setColor(Color.RED);
             }
             player.lastPts = player.pts;
             enemy.lastPts = enemy.pts;
-            g.drawString("Enemy Points: "+enemy.pts, B_WIDTH+15,30);
+            g.drawString("Enemy Points: "+enemy.pts, BOARD_WIDTH+15,30);
 
             Toolkit.getDefaultToolkit().sync();
         } else {
@@ -103,7 +107,7 @@ public class Board extends JPanel implements ActionListener {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        g.drawString(msg, (BOARD_WIDTH - metr.stringWidth(msg)) / 2, BOARD_HEIGHT / 2);
     }
 
     private void youWin(Graphics g) {
@@ -113,7 +117,7 @@ public class Board extends JPanel implements ActionListener {
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        g.drawString(msg, (BOARD_WIDTH - metr.stringWidth(msg)) / 2, BOARD_HEIGHT / 2);
     }
 
     private void checkCollision() {
