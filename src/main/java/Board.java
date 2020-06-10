@@ -73,11 +73,17 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(player.body, player.x[z], player.y[z], this);
                 }
             }
+            g.setColor(Color.ORANGE);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 15));
-
-            g.setColor(Color.red);
-
+            if(enemy.lastPts!=enemy.pts) {
+                g.setColor(Color.RED);
+            }
             g.drawString("Player Points: "+player.pts, B_WIDTH+15, 15);
+            if(player.lastPts!=player.pts){
+                g.setColor(Color.RED);
+            }
+            player.lastPts = player.pts;
+            enemy.lastPts = enemy.pts;
             g.drawString("Enemy Points: "+enemy.pts, B_WIDTH+15,30);
 
             Toolkit.getDefaultToolkit().sync();
