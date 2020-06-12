@@ -6,7 +6,9 @@ public class Enemy extends Snake  {
         super(posx, posy, headIMG, bodyIMG);
     }
 
+    // this function checks if the move in given direction is possible
     public boolean canMove(int direction){
+        // up
         if(direction==8){
             int X=x[0];
             int Y=y[0]-10;
@@ -14,6 +16,7 @@ public class Enemy extends Snake  {
                 return false;
             }else return true;
         }
+        // right
         if(direction==6){
             int X=x[0]+10;
             int Y=y[0];
@@ -21,6 +24,7 @@ public class Enemy extends Snake  {
                 return false;
             }else return true;
         }
+        // down
         if(direction==2){
             int X=x[0];
             int Y=y[0]+10;
@@ -28,6 +32,7 @@ public class Enemy extends Snake  {
                 return false;
             }else return true;
         }
+        // bottom
         if(direction==4){
             int X=x[0]-10;
             int Y=y[0];
@@ -37,7 +42,7 @@ public class Enemy extends Snake  {
         }
         return false;
     }
-
+    // AI algorithm that find direction to the apple
     public int AIfindDirection(int xApple,int  yApple){
         if(xApple>x[0]&&dir!=4){
             return 6;

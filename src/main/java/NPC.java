@@ -9,7 +9,7 @@ public class NPC {
     int mapSize = 300;
 
     public NPC(String image) {
-        // przypisanie obrazka
+        // image initializing
         ImageIcon img = new ImageIcon(image);
         body = img.getImage();
     }

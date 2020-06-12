@@ -6,17 +6,19 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.TimerTask;
 import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener {
-
+    // map size
     private final int BOARD_WIDTH = 300;
     private final int BOARD_HEIGHT = 300;
+    // frame size
     private final int FRAME_WIDTH = BOARD_WIDTH + 200;
     private final int FRAME_HEIGHT = BOARD_HEIGHT;
     private final int DELAY = 140;
+    // in game flag
     private boolean inGame = true;
+    // timer
     private Timer timer;
     private boolean enemyLose = false;
     private Player player;
@@ -25,6 +27,7 @@ public class Board extends JPanel implements ActionListener {
     private Frog frog;
     private LeaderBoard leaderBoard;
     public Board() {
+        // creating objects
         player = new Player(50,50,"src/resources/head.png","src/resources/dot.png");
         enemy = new Enemy(30,30,"src/resources/head.png","src/resources/dot.png");
         apple = new Apple("src/resources/apple.png", player, enemy);
@@ -32,7 +35,7 @@ public class Board extends JPanel implements ActionListener {
         leaderBoard = new LeaderBoard(BOARD_WIDTH+5,BOARD_HEIGHT/4, FRAME_WIDTH, FRAME_HEIGHT, this);
         initBoard();
     }
-
+    // initialize window
     private void initBoard() {
         addKeyListener(new PlayerControler(player));
         setBackground(Color.black);
@@ -41,7 +44,7 @@ public class Board extends JPanel implements ActionListener {
 
         initGame();
     }
-
+    // initialize locations of the frog and apple
     private void initGame() {
         frog.locateFrog();
         apple.locateApple();
@@ -61,7 +64,7 @@ public class Board extends JPanel implements ActionListener {
         leaderBoard.drawLeaderBoard(g);
         doDrawing(g);
     }
-
+    // draw apple, frog, enemy, player
     private void doDrawing(Graphics g) {
         if (inGame) {
             g.drawImage(apple.body, apple.x, apple.y, this);
@@ -102,7 +105,7 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-
+    // game over communicate
     private void gameOver(Graphics g) {
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
@@ -112,7 +115,7 @@ public class Board extends JPanel implements ActionListener {
         g.setFont(small);
         g.drawString(msg, (BOARD_WIDTH - metr.stringWidth(msg)) / 2, BOARD_HEIGHT / 2);
     }
-
+    // you win communicate
     private void youWin(Graphics g) {
         String msg = "You Win!!";
         Font small = new Font("Helvetica", Font.BOLD, 14);
@@ -122,7 +125,7 @@ public class Board extends JPanel implements ActionListener {
         g.setFont(small);
         g.drawString(msg, (BOARD_WIDTH - metr.stringWidth(msg)) / 2, BOARD_HEIGHT / 2);
     }
-
+    // checking collision of the snakes
     private void checkCollision() {
         if(!(player.checkCollision())) {
             inGame=false;
@@ -133,7 +136,7 @@ public class Board extends JPanel implements ActionListener {
             timer.stop();
         }
     }
-
+    // checking collision of the snakes
     private void checkEnemyCollision(){
         if(!(enemy.checkCollision())) {
             inGame=false;
@@ -153,11 +156,7 @@ public class Board extends JPanel implements ActionListener {
             Thread thread1 = new Thread(()->{
                 apple.checkApple();
             });
-            // Thread for apple
-            Thread thread4 = new Thread(()->{
-                frog.checkFrog();
-                frog.moveFrog();
-            });
+
             // Thread for player
             Thread thread2 = new Thread(()->{
                 checkCollision();
@@ -176,6 +175,11 @@ public class Board extends JPanel implements ActionListener {
                     inGame=false;
                 }
                 enemy.move();
+            });
+            // Thread for frog
+            Thread thread4 = new Thread(()->{
+                frog.checkFrog();
+                frog.moveFrog();
             });
             thread1.start();
             thread2.start();

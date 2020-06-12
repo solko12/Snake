@@ -1,4 +1,4 @@
-import java.util.concurrent.TimeUnit;
+
 
 public class Frog extends NPC {
     Player player;
@@ -9,18 +9,21 @@ public class Frog extends NPC {
         this.player = player;
         this.enemy = enemy;
     }
-
+    // initialize random position of the frog
     public void locateFrog() {
         int r = (int) (Math.random() * RAND_POS);
         x = ((r * DOT_SIZE));
-        x=150;
+
         r = (int) (Math.random() * RAND_POS);
         y = ((r * DOT_SIZE));
-        y=150;
+
     }
+    // algorithm that move frog to the random position 1 step away
     public void moveFrog() {
+
         int r =1 - (int) (Math.random()*3);
         int xMove = r* DOT_SIZE;
+        // checking collisions with the walls
         if((x+xMove)>=mapSize||(x+xMove)<=0)
         {
             xMove=-xMove;
@@ -29,14 +32,15 @@ public class Frog extends NPC {
 
         r =1 - (int) (Math.random()*3);
         int yMove = r* DOT_SIZE;
-        System.out.println(r);
+
+        // checking collisions with the walls
         if((x+yMove)>=mapSize||(y+yMove)<=0)
         {
             yMove=-yMove;
         }
         y +=yMove;
     }
-
+    // this function checks if a player or enemy catch a frog then it add point and relocate frog
     public void checkFrog() {
         if ((player.x[0] == x) && (player.y[0] == y)) {
             player.dots++;
