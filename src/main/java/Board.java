@@ -27,6 +27,7 @@ public class Board extends JPanel implements ActionListener {
         player = new Player(50,50,"src/resources/head.png","src/resources/dot.png");
         enemy = new Enemy(30,30,"src/resources/head.png","src/resources/dot.png");
         apple = new Apple("src/resources/apple.png", player, enemy);
+        frog = new Frog("src/resources/żaba.png",player,enemy);
         leaderBoard = new LeaderBoard(BOARD_WIDTH+5,BOARD_HEIGHT/4, FRAME_WIDTH, FRAME_HEIGHT, this);
         initBoard();
     }
@@ -41,7 +42,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void initGame() {
-        //frog.locateFrog();
+        frog.locateFrog();
         apple.locateApple();
         timer = new Timer(DELAY, this);
         timer.start();
@@ -63,6 +64,7 @@ public class Board extends JPanel implements ActionListener {
     private void doDrawing(Graphics g) {
         if (inGame) {
             g.drawImage(apple.body, apple.x, apple.y, this);
+            g.drawImage(frog.body, frog.x, frog.y, this);
             for (int z = 0; z < enemy.dots; z++) {
                 if (z == 0) {
                     g.drawImage(enemy.head, enemy.x[z], enemy.y[z], this);
@@ -150,6 +152,11 @@ public class Board extends JPanel implements ActionListener {
             Thread thread1 = new Thread(()->{
                 apple.checkApple();
             });
+            // Thread for apple
+            Thread thread4 = new Thread(()->{
+                frog.checkFrog();
+                frog.moveFrog();
+            });
             // Thread for player
             Thread thread2 = new Thread(()->{
                 checkCollision();
@@ -172,10 +179,12 @@ public class Board extends JPanel implements ActionListener {
             thread1.start();
             thread2.start();
             thread3.start();
+            thread4.start();
             try {
                 thread1.join();
                 thread2.join();
                 thread3.join();
+                thread4.join();
             }catch (InterruptedException exception){
                 System.out.println(exception.getMessage());
             }
