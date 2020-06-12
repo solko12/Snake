@@ -6,6 +6,7 @@ public class NPC {
     int y;
     int RAND_POS = 29;
     int DOT_SIZE = 10;
+    int mapSize = 300;
 
     public NPC(String image) {
         // przypisanie obrazka

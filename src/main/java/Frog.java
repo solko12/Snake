@@ -14,17 +14,27 @@ public class Frog extends NPC {
         int r = (int) (Math.random() * RAND_POS);
         x = ((r * DOT_SIZE));
         x=150;
-
         r = (int) (Math.random() * RAND_POS);
         y = ((r * DOT_SIZE));
         y=150;
     }
     public void moveFrog() {
-        int r = (int) (Math.random()*2)-2;
-        x +=((r * DOT_SIZE));
+        int r =1 - (int) (Math.random()*3);
+        int xMove = r* DOT_SIZE;
+        if((x+xMove)>=mapSize||(x+xMove)<=0)
+        {
+            xMove=-xMove;
+        }
+        x +=xMove;
 
-        r = (int) (Math.random()*2)-1;
-        y += ((r * DOT_SIZE));
+        r =1 - (int) (Math.random()*3);
+        int yMove = r* DOT_SIZE;
+        System.out.println(r);
+        if((x+yMove)>=mapSize||(y+yMove)<=0)
+        {
+            yMove=-yMove;
+        }
+        y +=yMove;
     }
 
     public void checkFrog() {
